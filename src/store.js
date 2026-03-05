@@ -1,32 +1,35 @@
-export const initialStore=()=>{
-  return{
-    message: null,
-    todos: [
-      {
-        id: 1,
-        title: "Make the bed",
-        background: null,
-      },
-      {
-        id: 2,
-        title: "Do my homework",
-        background: null,
-      }
-    ]
-  }
-}
+export const initialStore = () => {
+  const saved = localStorage.getItem("mis_contactos");
+  return {
+    contacts: saved ? JSON.parse(saved) : []
+  };
+};
 
-export default function storeReducer(store, action = {}) {
-  switch(action.type){
-    case 'add_task':
-
-      const { id,  color } = action.payload
-
-      return {
-        ...store,
-        todos: store.todos.map((todo) => (todo.id === id ? { ...todo, background: color } : todo))
-      };
+export const storeReducer = (state, action) => {
+  let newState;
+  switch (action.type) {
+    case "add_contact":
+      newState = { ...state, contacts: [...state.contacts, action.payload] };
+      break;
+    case "delete_contact":
+      newState = { ...state, contacts: state.contacts.filter((_, i) => i !== action.payload) };
+      break;
+    case "update_contact":
+  newState = { 
+    ...state, 
+    contacts: state.contacts.map((c, i) => 
+      i === action.payload.index ? action.payload.contact : c
+    ) 
+  };
+  break;
+  case "load_contacts":
+    newState = { ...state, contacts: action.payload };
+    break;
     default:
-      throw Error('Unknown action.');
-  }    
-}
+      return state;
+  }
+  localStorage.setItem("mis_contactos", JSON.stringify(newState.contacts));
+  return newState;
+};
+
+export default storeReducer; 
