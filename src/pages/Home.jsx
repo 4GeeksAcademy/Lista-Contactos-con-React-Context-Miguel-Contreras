@@ -19,7 +19,7 @@ export const Home = () => {
                     dispatch({ type: "load_contacts", payload: data.contacts || [] });
                 } else if (resp.status === 404) {
                     // POST /agendas/{slug} -> Si no existe, la creamos
-                    await fetch(`${baseUrl}/agendas/${slug}`, { method: "POST" });
+                    await fetch(`${baseUrl}/agendas/${slug}/contact`, { method: "POST" });
                     dispatch({ type: "load_contacts", payload: [] });
                 }
             } catch (error) {

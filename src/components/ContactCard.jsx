@@ -15,6 +15,7 @@ export const ContactCard = ({ contact, onDelete, index }) => {
     style={{ width: '80px', height: '80px', minWidth: '80px', backgroundColor: '#eef' }}
 />
 
+
             <div className="card-body d-flex justify-content-between align-items-center">
                 {/* DATOS DEL CONTACTO */}
                  <div>
